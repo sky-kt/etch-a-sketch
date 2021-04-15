@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Etch a Sketch</title>
+    </header>
+    <body>
+        <div id="div_container">
+
+        </div>
+    </body>
+    <footer>
+        <!-- js here-->
+        <script>
+            const div_container = document.getElementById('div_container');
+            function make_divs() {
+                for(let div_count = 0; div_count < 256; div_count++) {
+                    var node = document.createElement("div");
+                    var text_node = document.createTextNode("text");
+                    node.appendChild(text_node);
+                    div_container.appendChild(node);
+                }
+            }
+
+        </script>
+    </footer>
+</html>
