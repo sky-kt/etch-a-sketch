@@ -2,24 +2,94 @@
 <html>
     <header>
         <title>Etch a Sketch</title>
+        <style>
+            #div_container {
+                width: 1200px;
+                height: 1200px;
+                margin: auto;
+                padding-top: 2%; 
+                padding-bottom: 0;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .node {
+                width: 6.25%;
+                background-color: rgb(207, 207, 207);
+                outline: 1px solid black;
+            }
+
+            .colored_node {
+                width: 6.25%;
+                background-color: black;
+                outline: 1px solid black;
+            }
+
+            .node:hover {
+                background-color: rgb(0, 0, 0);
+            }
+
+            h1 {
+                text-align: center;
+                padding-top: 4%; 
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 50px;
+            }
+
+        </style>
     </header>
     <body>
+        <h1>Etch-a-Sketch</h1>
         <div id="div_container">
-
-        </div>
     </body>
     <footer>
         <!-- js here-->
         <script>
             const div_container = document.getElementById('div_container');
+            let mouse_is_clicking = false;
+            let mouse_is_over = false;
+
             function make_divs() {
                 for(let div_count = 0; div_count < 256; div_count++) {
-                    var node = document.createElement("div");
-                    var text_node = document.createTextNode("text");
-                    node.appendChild(text_node);
+                    let node = document.createElement("div");
+                    node.setAttribute('class', 'node');
+                    node.setAttribute('id', '' + div_count);
                     div_container.appendChild(node);
                 }
             }
+            make_divs();
+
+            document.querySelectorAll('.node').forEach(item => {
+                item.addEventListener('mousemove', function(e) {
+                    if (mouse_is_clicking && mouse_is_over) {
+                        e.target.setAttribute('class', 'colored_node');
+                    }
+                }, false);
+                
+                item.addEventListener('mousedown', function(e) {
+                    mouse_is_clicking = true;
+                    console.log("Clicked:" + mouse_is_clicking);
+                    e.target.setAttribute('class', 'colored_node');
+                }, false);
+
+                item.addEventListener('mouseup', function(e) {
+                    mouse_is_clicking = false;
+                    console.log("Clicked:" + mouse_is_clicking);
+                }, false);
+            })
+
+            document.querySelectorAll('#div_container').forEach(item => {
+                item.addEventListener('mouseenter', function(e) {
+                    mouse_is_over = true;
+                    console.log("Over:" + mouse_is_over);
+                }, false);
+
+                item.addEventListener('mouseleave', function(e) {
+                    mouse_is_over = false;
+                    mouse_is_clicking = false;
+                    console.log("Over:" + mouse_is_over);
+                }, false);
+            })
 
         </script>
     </footer>
