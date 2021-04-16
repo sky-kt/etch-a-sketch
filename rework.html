@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Etch-a-Sketch</title>
+        <style>
+            :root {
+                --cell-percentage: 6.25%;
+                --cell-color: black;
+            }
+            
+            #canvas-container {
+                display: flex;
+                flex-wrap: wrap;
+                width: 1500px;
+                height: 1500px;
+                border: 10px solid black;
+                margin: auto;
+                margin-top: 300px;
+            }
+
+            .individual-node {
+                width: var(--cell-percentage);
+                height: var(--cell-percentage);
+                outline: 1px dashed black;
+            }
+
+            .colored-node {
+                width: var(--cell-percentage);
+                height: var(--cell-percentage);
+                background-color: var(--cell-color);
+                outline: 1px dashed black;
+            }
+
+            #center-title {
+                text-align: center;
+                padding-top: 4%; 
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 100px;
+                color: black;
+            }
+
+            #reset-button {
+                position: relative;
+                bottom: 20%;
+                width: 800px;
+                height: 110px;
+                left: 50%;
+                top: 100px;
+                transform: translate(-50%, 0%);
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 40px;
+                border-radius: 10px;
+            }
+
+            #reset-button:hover {
+                width: 850px;
+                height: 150px;
+                background-color: rgb(199, 53, 53);
+                border-radius: 15px;
+                color: white;
+                font-weight: bolder;
+            }
+
+            body {
+                background: linear-gradient(90deg, rgba(81,184,244,1) 0%, rgba(255,159,159,1) 100%)
+            }
+
+        </style>
+    </header>
+
+    <body>
+        <h1 id="center-title">Etch-a-Sketch</h1>
+        <div id="canvas-container"></div>
+        <button id="reset-button">Reset Canvas</button>
+
+    </body>
+
+    <footer>
+        <script>
+            const canvas_container = document.getElementById("canvas-container");
+            const root = document.querySelector(':root');
+            const reset_button = document.getElementById("reset-button");
+            
+            reset_button.addEventListener('click', reload_page);
+
+            function reload_page() {
+                location.reload();
+            }
+
+            let cell_width = Number(prompt("Total canvas width?", 16));
+            let total_cells = cell_width * cell_width;
+            let cell_percentage = ((1 / cell_width) * 100) + "%";
+
+            root.style.setProperty('--cell-percentage', cell_percentage);
+
+            for(let cell_number = 0; cell_number < total_cells; cell_number++) {
+                let node = document.createElement("div");
+                node.setAttribute('class', 'individual-node');
+                canvas_container.appendChild(node);
+            }
+
+            function random_color() {
+                return ('#'+Math.floor(Math.random()*16777215).toString(16));
+            }
+            
+            let mouse_is_clicking = false;
+            let mouse_is_over = false;
+
+            document.querySelectorAll('.individual-node').forEach(item => {
+                item.addEventListener('mousemove', function(e) {
+                    if (mouse_is_clicking && mouse_is_over) {
+                        e.target.style.backgroundColor = random_color();
+                    }
+                }, false);
+                
+                item.addEventListener('mousedown', function(e) {
+                    mouse_is_clicking = true;
+                    e.target.style.backgroundColor = random_color();
+                }, false);
+
+                item.addEventListener('mouseup', function(e) {
+                    mouse_is_clicking = false;
+                }, false);
+            })
+
+            document.querySelectorAll('#canvas-container').forEach(item => {
+                item.addEventListener('mouseenter', function(e) {
+                    mouse_is_over = true;
+                    console.log("Over:" + mouse_is_over);
+                }, false);
+
+                item.addEventListener('mouseleave', function(e) {
+                    mouse_is_over = false;
+                    mouse_is_clicking = false;
+                    console.log("Over:" + mouse_is_over);
+                }, false);
+            })
+
+
+
+        </script>
+    </footer>
+</html>
