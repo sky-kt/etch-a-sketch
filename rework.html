@@ -80,14 +80,43 @@
             const canvas_container = document.getElementById("canvas-container");
             const root = document.querySelector(':root');
             const reset_button = document.getElementById("reset-button");
-            
+            let cell_width;
+            let can_continue = false;
+
             reset_button.addEventListener('click', reload_page);
 
             function reload_page() {
                 location.reload();
             }
 
-            let cell_width = Number(prompt("Total canvas width?", 16));
+            function render_page() {
+                cell_width = Number(prompt("Total canvas width?", 16));
+                check_input();
+            }
+
+            render_page();
+
+            function check_input() {
+                for(let input_index = 1; input_index <= 64; input_index++) {
+                    if (cell_width === input_index) {
+                        console.log("loop broken");
+                        can_continue = true;
+                        break;
+                    }
+                    
+                    else {
+                        console.log(input_index);
+                        can_continue = false;
+                        continue;
+                    }
+                }
+
+                if (can_continue === false) {
+                    alert("Please input a number from 1-64.");
+                    render_page();
+                }
+            }
+
             let total_cells = cell_width * cell_width;
             let cell_percentage = ((1 / cell_width) * 100) + "%";
 
@@ -135,9 +164,6 @@
                     console.log("Over:" + mouse_is_over);
                 }, false);
             })
-
-
-
         </script>
     </footer>
 </html>
